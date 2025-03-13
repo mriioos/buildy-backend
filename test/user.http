@@ -5,3 +5,13 @@ Content-Type: application/json
     "email": "john.doe@gmail.com",
     "password": "12345678"
 }
+
+###
+PUT http://localhost:3000/user/validation
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QyYjU1MTJkY2M3MGE1MzliYzAyZjgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MTg2MjIyNSwiZXhwIjoxNzQxODY5NDI1fQ.EDjTNiqSXoi1Uo42oxXxBQpPWQhLnDlItojV32zXWqY
+
+{
+    "code": "61953a"
+}
+

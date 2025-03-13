@@ -17,4 +17,9 @@ app.get('/test', (req, res) => {
     res.send('Hello World!');
 });
 
+app.use((req, res, next, err) => {
+    console.error(err.stack);
+    res.status(500).json({ errors : ['Unknown error'] });
+});
+
 module.exports = app;
