@@ -75,4 +75,33 @@ module.exports.putUserValidation = async (req, res) => {
 };
 
 // Post user login
+module.exports.postUserLogin = async (req, res) => {
+    const { email, password } = matchedData(req, { locations : ['body'] });
+
+    // Check if user exists
+    const [error, db_user] = await try_catch(User.findOne({ email }));
+
+    if (error || !db_user) {
+        res.status(404).json({ errors : ['User not found'] });
+        return;
+    }
+
+    // Check if user is validated
+    if (!db_user.validated) {
+        res.status(401).json({ errors : ['User not validated'] });
+        return;
+    }
+
+    // Compare passwords
+    const match = await security.compare(password, db_user.password);
+
+    if (!match) {
+        res.status(401).json({ errors : ['Invalid password'] });
+        return;
+    }
+
+    // Return user JWT
+    const token = security.tokenSign(db_user);
+
+    res.status(200).json({ token });
 };

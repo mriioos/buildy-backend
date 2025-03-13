@@ -8,4 +8,6 @@ router.post('/', validators.postUser, controllers.postUser);
 
 router.put('/validation', validators.putUserValidation, controllers.putUserValidation);
 
+router.post('/login', validators.postUserLogin, controllers.postUserLogin);
+
 module.exports = router;

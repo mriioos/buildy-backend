@@ -15,3 +15,13 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QyYjU1MTJkY2M3
     "code": "61953a"
 }
 
+###
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+    "email": "john.doe@gmail.com",
+    "password": "12345678"
+}
+
+###

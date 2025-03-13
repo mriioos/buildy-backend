@@ -15,3 +15,8 @@ module.exports.putUserValidation = [
     validateResults
 ];
 
+module.exports.postUserLogin = [
+    body('email').trim().isEmail(),
+    body('password').isString(),
+    validateResults
+];
