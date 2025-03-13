@@ -34,7 +34,6 @@ module.exports.postUser = async (req, res) => {
     console.log(`Código enviado por mail: ${db_user.validation_code}`);
 };
 
-
 // Put user validation
 module.exports.putUserValidation = async (req, res) => {
     const { code, authorization : token } = matchedData(req);
@@ -105,3 +104,25 @@ module.exports.postUserLogin = async (req, res) => {
 
     res.status(200).json({ token });
 };
+
+// Patch user
+module.exports.patchUser = async (req, res) => {
+
+    const user_data = matchedData(req, { locations : ['body'] });
+
+    // Update user data
+    Object.entries(user_data).forEach(([key, value]) => {
+        if (value !== undefined) {
+            req.user[key] = value;
+        }
+    });
+
+    const [error, updated_user] = await try_catch(req.user.save());
+
+    if (error || !updated_user) {
+        res.status(500).json({ errors : ['Unknown error', error] });
+        return;
+    }
+
+    res.status(200).json({ message : 'OK' });
+}

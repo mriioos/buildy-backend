@@ -20,3 +20,10 @@ module.exports.postUserLogin = [
     body('password').isString(),
     validateResults
 ];
+
+module.exports.patchUser = [
+    body('name').optional().trim().isString(),
+    body('lastname').optional().trim().isString(),
+    body('nif').optional().trim().isString(),
+    validateResults
+]

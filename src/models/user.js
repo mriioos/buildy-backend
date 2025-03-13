@@ -27,7 +27,23 @@ const userSchema = new mongoose.Schema({
     role : {
         type : String,
         default : 'user'
+    },
+    name : {
+        type : String,
+        required : false
+    },
+    lastname : {
+        type : String,
+        required : false
+    },
+    nif : {
+        type : String,
+        required : false
     }
+},
+{
+    timestamps : true,
+    versionKey : false
 });
 
 module.exports = mongoose.model('User', userSchema);
