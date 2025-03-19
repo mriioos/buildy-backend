@@ -17,6 +17,12 @@ module.exports = authMiddleware = () => async (req, res, next) => {
             return;
         }
 
+        // If token is expired
+        if (verified_token.expired) {
+            res.status(401).json({ errors : ['Token expired'] });
+            return;
+        }
+
         // Check if user exists
         const [error, db_user] = await try_catch(User.findById(verified_token._id));
     

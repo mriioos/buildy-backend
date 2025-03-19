@@ -31,6 +31,11 @@ module.exports.verifyToken = (tokenJwt) => {
         return jwt.verify(tokenJwt, JWT_SECRET)
     }
     catch(err) {
+
+        if(err.name === 'TokenExpiredError') {
+            return { expired : true }
+        }
+
         console.log(err)
     }
 }

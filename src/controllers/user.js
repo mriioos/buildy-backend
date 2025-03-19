@@ -2,6 +2,7 @@ const { try_catch } = require('wrappedjs');
 const { matchedData } = require('express-validator');
 const User = require('../models/user');
 const security = require('../utils/security');
+const { sendEmail } = require('../utils/handleEmail');
 
 // Post user
 module.exports.postUser = async (req, res) => {
@@ -31,7 +32,17 @@ module.exports.postUser = async (req, res) => {
 
     res.status(201).json({ token });
 
-    console.log(`Código enviado por mail: ${db_user.validation_code}`);
+    // Send validation email
+    sendEmail({
+        from : process.env.GMAIL_USER,
+        to : email,
+        subject : 'Email validation',
+        html : `<h1>Validation code</h1><p>${db_user.validation_code}</p>`
+    })
+    .then(() => {
+        console.log(`Código enviado por mail: ${db_user.validation_code}`);
+    })
+    .catch(console.error);  
 };
 
 // Put user validation
@@ -125,4 +136,4 @@ module.exports.patchUser = async (req, res) => {
     }
 
     res.status(200).json({ message : 'OK' });
-}
+};

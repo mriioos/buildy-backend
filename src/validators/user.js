@@ -26,4 +26,4 @@ module.exports.patchUser = [
     body('lastname').optional().trim().isString(),
     body('nif').optional().trim().isString(),
     validateResults
-]
+];

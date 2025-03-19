@@ -2,17 +2,17 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-    "email": "john.doe@gmail.com",
+    "email": "miguel12105marcos@gmail.com",
     "password": "12345678"
 }
 
 ###
 PUT http://localhost:3000/user/validation
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QyYzI5N2JhZTBjN2E3NGY0NDdkNjIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MTg2NTYyMywiZXhwIjoxNzQxODcyODIzfQ.SjyJ1xrd_wyM3e-MiSbbSyCz3FxZey-kaCxAW_EI63A
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjM1NiwiZXhwIjoxNzQyMzgzNTU2fQ.Im1mNZWg_5Uvk3iRnHaa0BUbOk0Nk_9-IUAm1xo8Jig
 
 {
-    "code": "595f0f"
+    "code": "3efe8c"
 }
 
 ###
@@ -20,17 +20,18 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "email": "john.doe@gmail.com",
+    "email": "miguel12105marcos@gmail.com",
     "password": "12345678"
 }
 
 ###
 PATCH http://localhost:3000/user
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QyYzI5N2JhZTBjN2E3NGY0NDdkNjIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MTg2NzQ1MiwiZXhwIjoxNzQxODc0NjUyfQ.PyDxHuS6s6cW0pd2j0OB8LRM_HRHcN2GZzXLzzVv1AA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
 
 {
     "name" : "John Doe",
     "lastname" : "Doe",
     "nif" : "12345678Z"
+}
 }
