@@ -137,3 +137,26 @@ module.exports.patchUser = async (req, res) => {
 
     res.status(200).json({ message : 'OK' });
 };
+
+
+// Put user company
+module.exports.putUserCompany = async (req, res) => {
+
+    const { company } = matchedData(req, { locations : ['body'] });
+
+    // Update user company
+    req.user.company = company || { // company : false (if self-employed)
+        name : req.user.name,
+        cif : req.user.nif,
+        address : {}
+    };
+
+    const [error, updated_user] = await try_catch(req.user.save());
+
+    if (error || !updated_user) {
+        res.status(500).json({ errors : ['Unknown error', error] });
+        return;
+    }
+
+    res.status(200).json({ message : 'OK' });
+};

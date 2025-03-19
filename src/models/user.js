@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
     nif : {
         type : String,
         required : false
+    },
+    company : {
+        type : Object,
+        required : false,
+        default : {}
     }
 },
 {

@@ -27,3 +27,37 @@ module.exports.patchUser = [
     body('nif').optional().trim().isString(),
     validateResults
 ];
+
+module.exports.putUserCompany = [
+    body('company').custom(value => {
+
+        // Check if the user is self-employed
+        if(typeof value === 'boolean' && value === false) {
+            return true;
+        }
+
+        // If the compoany is an object, check if it has the required properties
+        if (typeof value === 'object' && value !== null) {
+
+            // Check basic company metadata
+            const { name, cif, address } = value;
+
+            if (typeof name !== 'string' || typeof cif !== 'string' || typeof address !== 'object') {
+
+                throw new Error('Invalid company data');
+            }
+
+            // Check address properties
+            const { street, number, postalCode, city, province } = address;
+
+            if (typeof street !== 'string' || typeof number !== 'number' || typeof postalCode !== 'number' || typeof city !== 'string' || typeof province !== 'string') {
+                throw new Error('Invalid company data');
+            }
+
+            return true;
+        }
+
+        throw new Error('Invalid company data');
+    }),
+    validateResults
+];

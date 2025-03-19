@@ -34,4 +34,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhN
     "lastname" : "Doe",
     "nif" : "12345678Z"
 }
+
+### (Autónomo)
+PUT http://localhost:3000/user/company
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
+
+{
+    "company": false
+}
+
+### (No autónomo)
+PUT http://localhost:3000/user/company
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
+
+{
+    "company" : {
+        "name" : "Empresa test",
+        "cif" : "12345678Z",
+        "address" : {
+            "street" : "Calle test",
+            "number" : 1,
+            "postalCode" : 28001,
+            "city" : "Madrid",
+            "province" : "Madrid"
+        }
+    }
+}
 }

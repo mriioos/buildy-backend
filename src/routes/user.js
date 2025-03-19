@@ -15,4 +15,6 @@ router.post('/login', validators.postUserLogin, controllers.postUserLogin);
 
 router.patch('/', authMiddleware(), validators.patchUser, controllers.patchUser);
 
+router.put('/company', authMiddleware(), validators.putUserCompany, controllers.putUserCompany);
+
 module.exports = router;
