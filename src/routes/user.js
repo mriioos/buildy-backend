@@ -25,4 +25,7 @@ router.put('/company', authMiddleware(), validators.putUserCompany, controllers.
 router.put('/logo', authMiddleware(), upload.single('file'), validators.putUserLogo, controllers.putUserLogo);
 
 router.get('/', authMiddleware(), validators.getUser, controllers.getUser);
+
+router.delete('/', authMiddleware(), validators.deleteUser, controllers.deleteUser);
+
 module.exports = router;

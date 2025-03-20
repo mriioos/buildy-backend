@@ -70,3 +70,7 @@ module.exports.getUser = [
     validateResults
 ];
 
+module.exports.deleteUser = [
+    query('soft').optional().default(true).isBoolean().withMessage('soft must be a boolean'),
+    validateResults
+]

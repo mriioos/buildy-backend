@@ -13,6 +13,41 @@ module.exports.postUser = async (req, res) => {
     // Hash password
     const hash = await security.hash(password);
 
+    // Check if user already exists (soft deleted)
+    const [find_existing_user_error, existing_db_user] = await try_catch(User.findOne({
+        email : email,
+        deleted : true
+    }));
+
+    if (find_existing_user_error) {
+        res.status(500).json({ errors : ['Error checking user', find_existing_user_error] });
+        return;
+    }
+
+    // If user exists, restore it
+    if (existing_db_user) {
+
+        // Restart validation fields
+        existing_db_user.deleted = false;
+        existing_db_user.validation_attempts = 3;
+        existing_db_user.validation_code = Math.random().toString(16).substring(2, 8);
+        existing_db_user.validated = false;
+        existing_db_user.password = hash;
+
+        // Update user in database
+        const [restore_user_error, restored_user] = await try_catch(existing_db_user.save());
+        if (restore_user_error || !restored_user) {
+            res.status(500).json({ errors : ['Error restoring user', restore_user_error] });
+            return;
+        }
+        
+        // Return user JWT
+        const token = security.tokenSign(restored_user);
+        res.status(201).json({ token });
+        return;
+    }
+
+
     // Save user to database
     const user = new User({ email, password : hash });
     const [error, db_user] = await try_catch(user.save());
@@ -24,7 +59,6 @@ module.exports.postUser = async (req, res) => {
             return;
         }
 
-        res.status(500).json({ errors : ['Unkown error', error] });
         res.status(500).json({ errors : ['Error creating user', error] });
         return;
     }
@@ -156,7 +190,6 @@ module.exports.patchUser = async (req, res) => {
     const [error, updated_user] = await try_catch(req.user.save());
 
     if (error || !updated_user) {
-        res.status(500).json({ errors : ['Unknown error', error] });
         res.status(500).json({ errors : ['Error updating user'] });
         return;
     }
@@ -180,7 +213,6 @@ module.exports.putUserCompany = async (req, res) => {
     const [error, updated_user] = await try_catch(req.user.save());
 
     if (error || !updated_user) {
-        res.status(500).json({ errors : ['Unknown error', error] });
         res.status(500).json({ errors : ['Error uploadating user company'] });
         return;
     }

@@ -48,11 +48,27 @@ const userSchema = new mongoose.Schema({
         type : Object,
         required : false,
         default : {}
+    },
+    deleted : {
+        type : Boolean,
+        default : false
     }
 },
 {
     timestamps : true,
     versionKey : false
+});
+
+// Automatically exclude soft-deleted documents if not explicitly specified otherwise
+userSchema.pre(/^find/, function (next) {
+
+    if(this._conditions.deleted === true){
+        next();
+        return;
+    }
+    
+    this.where({ deleted : false });
+    next();
 });
 
 module.exports = mongoose.model('User', userSchema);
