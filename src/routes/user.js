@@ -23,4 +23,6 @@ router.patch('/', authMiddleware(), validators.patchUser, controllers.patchUser)
 router.put('/company', authMiddleware(), validators.putUserCompany, controllers.putUserCompany);
 
 router.put('/logo', authMiddleware(), upload.single('file'), validators.putUserLogo, controllers.putUserLogo);
+
+router.get('/', authMiddleware(), validators.getUser, controllers.getUser);
 module.exports = router;

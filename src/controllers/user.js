@@ -25,6 +25,7 @@ module.exports.postUser = async (req, res) => {
         }
 
         res.status(500).json({ errors : ['Unkown error', error] });
+        res.status(500).json({ errors : ['Error creating user', error] });
         return;
     }
 
@@ -156,6 +157,7 @@ module.exports.patchUser = async (req, res) => {
 
     if (error || !updated_user) {
         res.status(500).json({ errors : ['Unknown error', error] });
+        res.status(500).json({ errors : ['Error updating user'] });
         return;
     }
 
@@ -179,6 +181,13 @@ module.exports.putUserCompany = async (req, res) => {
 
     if (error || !updated_user) {
         res.status(500).json({ errors : ['Unknown error', error] });
+        res.status(500).json({ errors : ['Error uploadating user company'] });
+        return;
+    }
+
+    res.status(200).json({ message : 'OK' });
+};
+
 // Put user logo
 module.exports.putUserLogo = async (req, res) => {
 

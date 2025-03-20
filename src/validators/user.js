@@ -65,3 +65,8 @@ module.exports.putUserCompany = [
 module.exports.putUserLogo = [
     validateResults
 ];
+
+module.exports.getUser = [
+    validateResults
+];
+
