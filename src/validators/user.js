@@ -1,4 +1,4 @@
-const { header, body } = require('express-validator');
+const { header, body, query } = require('express-validator');
 const validateResults = require('../utils/validateResult');
 
 module.exports.postUser = [
@@ -59,5 +59,9 @@ module.exports.putUserCompany = [
 
         throw new Error('Invalid company data');
     }),
+    validateResults
+];
+
+module.exports.putUserLogo = [
     validateResults
 ];

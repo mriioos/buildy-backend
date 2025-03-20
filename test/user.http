@@ -1,3 +1,4 @@
+### Signup
 POST http://localhost:3000/user
 Content-Type: application/json
 
@@ -6,7 +7,7 @@ Content-Type: application/json
     "password": "12345678"
 }
 
-###
+### Validation
 PUT http://localhost:3000/user/validation
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjM1NiwiZXhwIjoxNzQyMzgzNTU2fQ.Im1mNZWg_5Uvk3iRnHaa0BUbOk0Nk_9-IUAm1xo8Jig
@@ -15,7 +16,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMy
     "code": "3efe8c"
 }
 
-###
+### Login
 POST http://localhost:3000/user/login
 Content-Type: application/json
 
@@ -24,7 +25,7 @@ Content-Type: application/json
     "password": "12345678"
 }
 
-###
+### Update user info
 PATCH http://localhost:3000/user
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
@@ -35,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhN
     "nif" : "12345678Z"
 }
 
-### (Autónomo)
+### User company (Autónomo)
 PUT http://localhost:3000/user/company
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
@@ -44,7 +45,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhN
     "company": false
 }
 
-### (No autónomo)
+### User company (No autónomo)
 PUT http://localhost:3000/user/company
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjQ4MSwiZXhwIjoxNzQyMzgzNjgxfQ.UGlRW2-CAjRLqpVkjAVphKQaqcLEs94-D0nBIXRK91g
@@ -62,4 +63,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhN
         }
     }
 }
-}
+
+### User logo
+PUT http://localhost:3000/user/logo
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjQ2NzU2NCwiZXhwIjoxNzQyNDc0NzY0fQ.dFSwVuziYPgAi51R495bX_iK1s02enabZ6qADXPpP9I
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test_user_logo.png"
+Content-Type: image/png
+
+< ./test_user_logo.png
+--boundary--
+

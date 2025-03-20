@@ -3,6 +3,7 @@ const { matchedData } = require('express-validator');
 const User = require('../models/user');
 const security = require('../utils/security');
 const { sendEmail } = require('../utils/handleEmail');
+const ipfs = require('../utils/handleIPFS');
 
 // Post user
 module.exports.postUser = async (req, res) => {
@@ -66,8 +67,31 @@ module.exports.putUserValidation = async (req, res) => {
         return;
     }
 
+    // Check if user is validated
+    if (db_user.validated) {
+        res.status(200).json({ message : 'OK' });
+        return;
+    }
+
     // Check if validation code is correct
     if (db_user.validation_code !== code) {
+
+        // Decrement validation attempts
+        db_user.validation_attempts -= 1;
+
+        // If validation attempts are 0, delete user
+        if (db_user.validation_attempts <= 0) {
+
+            const [delete_error, _] = await try_catch(db_user.delete());
+            if (delete_error) {
+                res.status(500).json({ errors : ['Error deleting user'] });
+                return;
+            }
+
+            res.status(401).json({ errors : ['Invalid code. Máx validation attempts reached. User deleted'] });
+            return;
+        }
+
         res.status(401).json({ errors : ['Invalid code'] });
         return;
     }
@@ -155,7 +179,78 @@ module.exports.putUserCompany = async (req, res) => {
 
     if (error || !updated_user) {
         res.status(500).json({ errors : ['Unknown error', error] });
+// Put user logo
+module.exports.putUserLogo = async (req, res) => {
+
+    const { file } = req;
+
+    // Check if file exists
+    if (!file) {
+        res.status(400).json({ errors : ['No file uploaded'] });
         return;
+    }
+
+    // Upload user logo to pinata
+    const [upload_error, logo] = await try_catch(ipfs.uploadToPinata(file.buffer, `${req.user._id}-logo.png`));
+    if (upload_error || !logo?.IpfsHash) {
+        res.status(500).json({ errors : ['Error uploading image', upload_error] });
+        return;
+    }
+
+    // Update user logo
+    req.user.logo = `https://${process.env.PINATA_GATEWAY}/ipfs/${logo.IpfsHash}`;
+
+    const [update_error, updated_user] = await try_catch(req.user.save());
+
+    if (update_error || !updated_user) {
+        res.status(500).json({ errors : ['Error updating user', error] });
+        return;
+    }
+
+    res.status(200).json({ message : 'OK' });
+};
+
+
+// Retrieve user by JWT
+module.exports.getUser = async (req, res) => {
+
+    // Return user data (only public data)
+    res.status(200).json({
+        user : {
+            _id : req.user._id,
+            email : req.user.email,
+            validated : req.user.validated,
+            role : req.user.role,
+            name : req.user.name,
+            lastname : req.user.lastname,
+            nif : req.user.nif,
+            company : req.user.company,
+            logo : req.user.logo,
+        }
+    });
+};
+
+
+// Delete user (soft?)
+module.exports.deleteUser = async (req, res) => {
+
+    const { soft } = matchedData(req, { locations : ['query'] });
+
+    // Soft delete user
+    if (soft) {
+        req.user.deleted = true;
+        const [error, updated_user] = await try_catch(req.user.save());
+        if (error || !updated_user) {
+            res.status(500).json({ errors : ['Error deleting user'] });
+            return;
+        }
+    }
+    else {
+        const [error, deleted_user] = await try_catch(req.user.delete());
+        if (error || !deleted_user) {
+            res.status(500).json({ errors : ['Error deleting user'] });
+            return;
+        }
     }
 
     res.status(200).json({ message : 'OK' });
