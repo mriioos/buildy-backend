@@ -71,6 +71,16 @@ module.exports.getUser = [
 ];
 
 module.exports.deleteUser = [
-    query('soft').optional().default(true).isBoolean().withMessage('soft must be a boolean'),
+    query('soft').optional().default(true).isBoolean().withMessage("'soft' query param must be a boolean"),
     validateResults
-]
+];
+
+module.exports.postUserRecovery = [
+    body('email').trim().isEmail(),
+    validateResults
+];
+
+module.exports.putUserPassword = [
+    body('password').isLength({ min : 8 }),
+    validateResults
+];

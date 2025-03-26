@@ -10,10 +10,10 @@ Content-Type: application/json
 ### Validation
 PUT http://localhost:3000/user/validation
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjM3NjM1NiwiZXhwIjoxNzQyMzgzNTU2fQ.Im1mNZWg_5Uvk3iRnHaa0BUbOk0Nk_9-IUAm1xo8Jig
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0Mjk4MTI5NiwiZXhwIjoxNzQyOTg4NDk2fQ.T54izDa0r5iu2bqir_bC-vKSpi6cNk_yxkxAP6eNmUs
 
 {
-    "code": "3efe8c"
+    "code": "46b162"
 }
 
 ### Login
@@ -83,3 +83,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhN
 ### Delete user
 DELETE http://localhost:3000/user?soft=false
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjQ2NzU2NCwiZXhwIjoxNzQyNDc0NzY0fQ.dFSwVuziYPgAi51R495bX_iK1s02enabZ6qADXPpP9I
+
+### Soft delete user
+DELETE http://localhost:3000/user?soft=true
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjQ2NzU2NCwiZXhwIjoxNzQyNDc0NzY0fQ.dFSwVuziYPgAi51R495bX_iK1s02enabZ6qADXPpP9I
+
+### Generate recovery token
+POST http://localhost:3000/user/recovery
+Content-Type: application/json
+
+{
+    "email" : "miguel12105marcos@gmail.com"
+}
+
+### Update user password
+PUT http://localhost:3000/user/password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0Mjk4MjIyNCwiZXhwIjoxNzQyOTg5NDI0fQ.p9K8Cpb8nFvWOGBlaACsel5iShh14ncH0itU14uz05s
+Content-Type: application/json
+
+{
+    "password" : "12345678"
+}

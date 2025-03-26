@@ -67,7 +67,8 @@ userSchema.pre(/^find/, function (next) {
         return;
     }
     
-    this.where({ deleted : false });
+    // If deleted = false or deleted = undefined, filter out deleted documents
+    this._conditions.deleted = false;
     next();
 });
 

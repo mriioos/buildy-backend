@@ -296,3 +296,57 @@ module.exports.deleteUser = async (req, res) => {
 
     res.status(200).json({ message : 'OK' });
 };
+
+// Post user recovery
+module.exports.postUserRecovery = async (req, res) => {
+    const { email } = matchedData(req, { locations : ['body'] });
+
+    // Check if user exists
+    const [error, db_user] = await try_catch(User.findOne({ email }));
+
+    if (error || !db_user) {
+        res.status(404).json({ errors : ['User not found'] });
+        return;
+    }
+
+    // Generate new login token (So the user can use it to change the password)
+    const token = security.tokenSign(db_user);
+
+    // Send validation email
+    sendEmail({
+        from : process.env.GMAIL_USER,
+        to : email,
+        subject : 'Password recovery',
+        html : `<h1>Password recovery</h1><p>${token}</p>`
+    })
+    .then(() => {
+        console.log(`Token enviado por mail: ${token}`);
+    })
+    .catch(console.error);  
+};
+
+// Put user password
+module.exports.putUserPassword = async (req, res) => {
+    const { password } = matchedData(req, { locations : ['body'] });
+
+    // If token is invalid
+    if (!req.user) {
+        res.status(401).json({ errors : ['Invalid token'] });
+        return;
+    }
+
+    // Hash password
+    const hash = await security.hash(password);
+
+    // Update user password
+    req.user.password = hash;
+
+    const [update_error, updated_user] = await try_catch(req.user.save());
+
+    if (update_error || !updated_user) {
+        res.status(500).json({ errors : ['Error updating user', update_error] });
+        return;
+    }
+
+    res.status(200).json({ message : 'OK' });
+}
