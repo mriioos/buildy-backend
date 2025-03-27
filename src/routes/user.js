@@ -42,4 +42,7 @@ router.post('/recovery', validators.postUserRecovery, controllers.postUserRecove
 // Cambiar contraseña (Con el token que devuelve de validación)
 router.put('/password', authMiddleware(), validators.putUserPassword, controllers.putUserPassword);
 
+// Crear un guest de la expresa (trabajador)
+router.post('/company/guest', authMiddleware(), validators.postUserCompanyGuest, controllers.postUserCompanyGuest);
+
 module.exports = router;

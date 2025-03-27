@@ -10,10 +10,10 @@ Content-Type: application/json
 ### Validation
 PUT http://localhost:3000/user/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0Mjk4MTI5NiwiZXhwIjoxNzQyOTg4NDk2fQ.T54izDa0r5iu2bqir_bC-vKSpi6cNk_yxkxAP6eNmUs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MjRmNWViNjRjODcxMzA5ODczMDAiLCJyb2xlIjoiZ3Vlc3QiLCJpYXQiOjE3NDMwNzA0NTMsImV4cCI6MTc0MzA3NzY1M30.mAEDO_EOLNHI5vcXVVHp7dAaVSkJpste4n0cIR3jQ54
 
 {
-    "code": "46b162"
+    "code": "85a9e4"
 }
 
 ### Login
@@ -103,4 +103,17 @@ Content-Type: application/json
 
 {
     "password" : "12345678"
+}
+
+### Add guest to the company
+POST http://localhost:3000/user/company/guest
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhOGRhNDhkZGMyNTdlZDdhODM2MGIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MzA3MDQzNSwiZXhwIjoxNzQzMDc3NjM1fQ.paLS2u5grUPGO4h1xUiernwzl8KRLdclgnWqBqgL0W4
+Content-Type: application/json
+
+{
+    "email": "jopetis28@gmail.com",
+    "password": "12345678",
+    "name" : "John",
+    "lastname" : "Doe",
+    "nif" : "12345678Z"
 }

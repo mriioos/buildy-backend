@@ -350,3 +350,65 @@ module.exports.putUserPassword = async (req, res) => {
 
     res.status(200).json({ message : 'OK' });
 }
+
+// Add new guest to company
+module.exports.postUserCompanyGuest = async (req, res) => {
+
+    const { email, password, name, lastname, nif } = matchedData(req, { locations : ['body'] });
+    
+    // Hash password
+    const hash = await security.hash(password);
+
+    // Check if user already exists (soft deleted)
+    const [find_existing_user_error, existing_db_user] = await try_catch(User.findOne({
+        email : email,
+        deleted : true
+    }));
+
+    if (find_existing_user_error) {
+        res.status(500).json({ errors : ['Error checking user', find_existing_user_error] });
+        return;
+    }
+
+
+    // Save user to database
+    const user = new User({ 
+        email : email, 
+        password : hash, 
+        name : name, 
+        lastname : lastname, 
+        nif : nif,
+        role : 'guest',
+        company : req.user.company, 
+    });
+
+    const [error, db_user] = await try_catch(user.save());
+
+    if(error || !db_user) {
+        // Check if error is due to duplicate email
+        if (error.code === 11000) {
+            res.status(409).json({ errors : ['User already exists'] });
+            return;
+        }
+
+        res.status(500).json({ errors : ['Error creating user', error] });
+        return;
+    }
+
+    // Return user JWT and send validation token via email
+    const token = security.tokenSign(db_user);
+
+    res.status(201).json({ token });
+
+    // Send validation email
+    sendEmail({
+        from : process.env.GMAIL_USER,
+        to : email,
+        subject : 'Email validation',
+        html : `<h1>Validation code</h1><p>${db_user.validation_code}</p>`
+    })
+    .then(() => {
+        console.log(`Código enviado por mail: ${db_user.validation_code}`);
+    })
+    .catch(console.error);  
+};

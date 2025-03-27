@@ -84,3 +84,12 @@ module.exports.putUserPassword = [
     body('password').isLength({ min : 8 }),
     validateResults
 ];
+
+module.exports.postUserCompanyGuest = [
+    body('email').trim().isEmail(),
+    body('password').isLength({ min : 8 }),
+    body('name').optional().trim().isString(),
+    body('lastname').optional().trim().isString(),
+    body('nif').optional().trim().isString(),
+    validateResults
+];
